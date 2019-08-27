@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+   <body>
+      <table border = 1>
+        {% for key in records  %}
+            <th> {{ key }} </th>
+        {% endfor %}
+        {% for record in records_value %}
+          <tr>
+            {% for key in records %}
+              <td> {{ record[key] }} </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}  
+      </table>
+   </body>
+</html>
+
