@@ -1,18 +1,22 @@
-<!doctype html>
-<html>
-   <body>
-      <table border = 1>
+{% extends "bootstrap/base.html" %}
+{% block title %}This is an example page{% endblock %}
+{% block content %}
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
         {% for key in records  %}
-            <th> {{ key }} </th>
+        <th> {{ key }} </th>
         {% endfor %}
-        {% for record in records_value %}
-          <tr>
-            {% for key in records %}
-              <td> {{ record[key] }} </td>
-            {% endfor %}
-          </tr>
-        {% endfor %}  
-      </table>
-   </body>
-</html>
+      </tr>
+    </thead>
+    {% for record in records_value %}
+      <tr>
+        {% for key in records %}
+          <td> {{ record[key] }} </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}  
+  </table>
+{% endblock %}
+  
 

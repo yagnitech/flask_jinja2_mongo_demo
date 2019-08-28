@@ -1,33 +1,28 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from flask_mongoengine import MongoEngine
 from mongoengine import *
-from flask import request
-from bson.objectid import ObjectId
 import json
-from flask import jsonify
-import bson
-from mongoengine import Document
-from json import JSONEncoder
-from bson.json_util import default
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 db = MongoEngine(app)
+Bootstrap(app)
 
 class Record(db.DynamicDocument):
-   name = db.StringField(help_text="name", max_length=60)
-   address = db.StringField(help_text="address", max_length=200)
+   pass
 
 # listing records
 @app.route('/records')
 @app.route('/records/json')
 def index():
         record_key_list = []
-
+        key_not_allowed = ['_id']
         records = Record.objects.map_reduce('function() { for (var key in this) { emit(key, null); } }','function(key, stuff) { return null; }', 'inline')
+       
         for record in records:
-            record_key_list.append(record.key)
-        record_key_list = [key for key in record_key_list if key not in ('_id')]
+            if record.key not in key_not_allowed: 
+                record_key_list.append(record.key)
 
         record = Record.objects.all()
         record_value_list = json.loads(record.to_json())
